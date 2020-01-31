@@ -9,7 +9,7 @@ Author:
             bklotz@tripwire.com
 
 Originated: July 2019
-Version 1.1
+Version 1.2
 '''
 import click
 import subprocess
@@ -40,9 +40,15 @@ def main(customer, script):
         customer_names.sort()
         # print(customer_names)
         for customer in customer_names:
-            runtecmdr(customer, input)
+                for line in input:
+                    if "{CUSTOMER}" in line:
+                        line = line.replace("{CUSTOMER}",customer)
+                runtecmdr(customer, input)
     else:
         if customer in customer_dict.keys():
+            for line in input:
+                if "{CUSTOMER}" in line:
+                    line = line.replace("{CUSTOMER}",customer)
             runtecmdr(customer, input)
         else:
             print(f'ERROR: \"{customer}\" is not a valid customer! \nRun \"customer_dict.py\" to see a list of valid customers.')
